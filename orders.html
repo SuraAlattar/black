@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr.Black - إدارة الطلبات</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #222222;
+            --secondary: #f8f8f8;
+            --accent: #d4af37;
+            --text: #333333;
+            --light-gray: #e0e0e0;
+            --medium-gray: #888888;
+            --transition-speed: 0.3s;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--secondary);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 2rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-speed);
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--accent);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width var(--transition-speed);
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .admin-btn {
+            background-color: var(--accent);
+            color: var(--primary);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all var(--transition-speed);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .admin-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Orders Section */
+        .orders-section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+        
+        .orders-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .orders-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .orders-title {
+            font-size: 1.5rem;
+        }
+        
+        .order-search {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .search-input {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            border: 1px solid var(--light-gray);
+        }
+        
+        .search-btn {
+            background-color: var(--accent);
+            color: var(--primary);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .orders-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .order-item {
+            border-bottom: 1px solid var(--light-gray);
+            transition: all var(--transition-speed);
+        }
+        
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        
+        .order-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            background-color: white;
+        }
+        
+        .order-summary:hover {
+            background-color: var(--secondary);
+        }
+        
+        .order-number {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .order-date {
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+        }
+        
+        .order-customer {
+            flex: 1;
+            margin: 0 1.5rem;
+        }
+        
+        .order-total {
+            font-weight: bold;
+            color: var(--accent);
+        }
+        
+        .order-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 1.5rem;
+        }
+        
+        .status-new {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-processing {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-shipped {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+        
+        .status-delivered {
+            background-color: #e2e3e5;
+            color: #383d41;
+        }
+        
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .order-details {
+            padding: 1.5rem;
+            background-color: var(--secondary);
+            display: none;
+        }
+        
+        .order-details.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .order-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-group {
+            margin-bottom: 1rem;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+        
+        .info-value {
+            color: var(--text);
+        }
+        
+        .order-items {
+            margin-top: 1.5rem;
+        }
+        
+        .items-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .item-list {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .item-list th {
+            text-align: right;
+            padding: 0.8rem;
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .item-list td {
+            padding: 0.8rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .item-list tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .order-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        .status-select {
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--light-gray);
+            margin-left: 1rem;
+        }
+        
+        .save-btn {
+            background-color: var(--accent);
+            color: var(--primary);
+        }
+        
+        .print-btn {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .no-orders {
+            text-align: center;
+            padding: 3rem;
+            color: var(--medium-gray);
+        }
+        
+        .no-orders i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--light-gray);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 4rem 2rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color var(--transition-speed);
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .footer-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        
+        .contact-item i {
+            color: var(--accent);
+            margin-top: 0.3rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-link {
+            display: inline-flex;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+            text-decoration: none;
+            justify-content: center;
+            align-items: center;
+            transition: all var(--transition-speed);
+        }
+        
+        .social-link:hover {
+            background-color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        .footer-logo {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .footer-logo span {
+            color: var(--accent);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .orders-section {
+                padding: 2rem 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+            
+            .orders-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .order-search {
+                width: 100%;
+            }
+            
+            .search-input {
+                flex: 1;
+            }
+            
+            .order-summary {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .order-customer {
+                margin: 0.5rem 0;
+            }
+            
+            .order-status {
+                margin-left: 0;
+                margin-top: 0.5rem;
+            }
+            
+            .item-list th, .item-list td {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .order-actions {
+                flex-direction: column;
+            }
+            
+            .status-select {
+                margin-left: 0;
+                margin-bottom: 0.5rem;
+            }
+        }
+        
+        /* Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 70%;
+            height: 100%;
+            background-color: var(--primary);
+            z-index: 200;
+            transition: left var(--transition-speed);
+            padding: 2rem;
+        }
+        
+        .mobile-nav.active {
+            left: 0;
+        }
+        
+        .close-mobile-menu {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .mobile-nav-logo {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 2rem;
+        }
+        
+        .mobile-nav-logo span {
+            color: var(--accent);
+        }
+        
+        .mobile-nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .mobile-nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            display: block;
+            transition: color var(--transition-speed);
+        }
+        
+        .mobile-nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 150;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition-speed);
+        }
+        
+        .mobile-nav-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="index.html" class="logo">Mr.<span>Black</span></a>
+        <nav>
+            <ul>
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="index.html#products">المنتجات</a></li>
+                <li><a href="index.html#about">من نحن</a></li>
+                <li><a href="index.html#contact">اتصل بنا</a></li>
+                <li><a href="orders.html" class="active">الطلبات</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions" style="display: flex; align-items: center;">
+            <a href="index.html" class="admin-btn">
+                <i class="fas fa-store"></i> العودة للمتجر
+            </a>
+        </div>
+        <div class="mobile-menu" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+    
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobileNav">
+        <button class="close-mobile-menu" id="closeMobileMenu">
+            <i class="fas fa-times"></i>
+        </button>
+        <a href="index.html" class="mobile-nav-logo">Mr.<span>Black</span></a>
+        <ul class="mobile-nav-links">
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="index.html#products">المنتجات</a></li>
+            <li><a href="index.html#about">من نحن</a></li>
+            <li><a href="index.html#contact">اتصل بنا</a></li>
+            <li><a href="orders.html" class="active">الطلبات</a></li>
+            <li><a href="index.html"><i class="fas fa-store"></i> العودة للمتجر</a></li>
+        </ul>
+    </div>
+    <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+    
+    <!-- Orders Section -->
+    <section class="orders-section">
+        <h2 class="section-title">إدارة الطلبات</h2>
+        
+        <div class="orders-container">
+            <div class="orders-header">
+                <h3 class="orders-title">جميع الطلبات</h3>
+                <div class="order-search">
+                    <input type="text" class="search-input" placeholder="ابحث برقم الطلب..." id="orderSearch">
+                    <button class="search-btn" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="orders-list" id="ordersList">
+                <!-- Orders will be loaded here -->
+                <div class="no-orders">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>لا توجد طلبات متاحة</p>
+                    <p>سيتم عرض الطلبات هنا عند توفرها</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>عن Mr.Black</h3>
+                <p style="color: #aaa; line-height: 1.6; margin-bottom: 1rem;">
+                    Mr.Black هو علامة تجارية للملابس الفاخرة المتخصصة في التيشيرتات عالية الجودة وسترات الشتاء المصممة للراحة والأناقة.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>روابط سريعة</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="index.html#products">المنتجات</a></li>
+                    <li><a href="index.html#about">من نحن</a></li>
+                    <li><a href="index.html#contact">اتصل بنا</a></li>
+                    <li><a href="#">سياسة الخصوصية</a></li>
+                    <li><a href="#">شروط الخدمة</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>خدمة العملاء</h3>
+                <ul class="footer-links">
+                    <li><a href="#">معلومات الشحن</a></li>
+                    <li><a href="#">الإرجاع والاستبدال</a></li>
+                    <li><a href="#">الأسئلة الشائعة</a></li>
+                    <li><a href="#">دليل المقاسات</a></li>
+                    <li><a href="#">تعليمات العناية</a></li>
+                    <li><a href="#">تتبع طلبك</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>اتصل بنا</h3>
+                <div class="footer-contact">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 شارع الموضة، منطقة التصميم، نيويورك 10001</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>+1 (555) 123-4567</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>info@mrblack.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <a href="index.html" class="footer-logo">Mr.<span>Black</span></a>
+            <p>&copy; 2025 Mr.Black. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Orders data
+        let orders = [];
+        let filteredOrders = [];
+        
+        // DOM elements
+        const ordersList = document.getElementById('ordersList');
+        const orderSearch = document.getElementById('orderSearch');
+        const searchBtn = document.getElementById('searchBtn');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+        const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+        
+        // Initialize the page
+        function initOrdersPage() {
+            // Check if admin is logged in
+            checkAdminLogin();
+            
+            // Load orders
+            loadOrders();
+            
+            // Render orders
+            renderOrders();
+            
+            // Event listeners
+            orderSearch.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    filterOrders();
+                }
+            });
+            
+            searchBtn.addEventListener('click', filterOrders);
+            
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileNav.classList.add('active');
+                mobileNavOverlay.classList.add('active');
+            });
+            
+            closeMobileMenu.addEventListener('click', () => {
+                mobileNav.classList.remove('active');
+                mobileNavOverlay.classList.remove('active');
+            });
+            
+            mobileNavOverlay.addEventListener('click', () => {
+                mobileNav.classList.remove('active');
+                mobileNavOverlay.classList.remove('active');
+            });
+            
+            // Check if there's an order number in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderNumber = urlParams.get('order');
+            
+            if (orderNumber) {
+                // Highlight and expand the specific order
+                setTimeout(() => {
+                    const orderElement = document.querySelector(`.order-item[data-order="${orderNumber}"]`);
+                    if (orderElement) {
+                        orderElement.scrollIntoView({ behavior: 'smooth' });
+                        const details = orderElement.querySelector('.order-details');
+                        if (details) {
+                            details.classList.add('active');
+                        }
+                    }
+                }, 500);
+            }
+        }
+        
+        // Check if admin is logged in
+        function checkAdminLogin() {
+            const isAdmin = localStorage.getItem('adminLoggedIn') === 'true';
+            
+            if (!isAdmin) {
+                // Redirect to login page if not admin
+                window.location.href = 'login.html';
+            }
+        }
+        
+        // Load orders from localStorage
+        function loadOrders() {
+            const storedOrders = localStorage.getItem('orders');
+            if (storedOrders) {
+                orders = JSON.parse(storedOrders);
+                filteredOrders = [...orders].reverse(); // Show newest first
+            }
+        }
+        
+        // Filter orders based on search input
+        function filterOrders() {
+            const searchTerm = orderSearch.value.trim().toLowerCase();
+            
+            if (searchTerm === '') {
+                filteredOrders = [...orders].reverse();
+            } else {
+                filteredOrders = orders.filter(order => 
+                    order.orderNumber.toString().includes(searchTerm) ||
+                    order.customerName.toLowerCase().includes(searchTerm) ||
+                    order.phone.includes(searchTerm)
+                ).reverse();
+            }
+            
+            renderOrders();
+        }
+        
+        // Render orders to the page
+        function renderOrders() {
+            if (filteredOrders.length === 0) {
+                ordersList.innerHTML = `
+                    <div class="no-orders">
+                        <i class="fas fa-clipboard-list"></i>
+                        <p>لا توجد طلبات متاحة</p>
+                        <p>سيتم عرض الطلبات هنا عند توفرها</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            ordersList.innerHTML = '';
+            
+            filteredOrders.forEach(order => {
+                const orderItem = document.createElement('div');
+                orderItem.className = 'order-item';
+                orderItem.dataset.order = order.orderNumber;
+                
+                // Format date
+                const formattedDate = order.date || new Date().toLocaleDateString();
+                const formattedTime = order.time || new Date().toLocaleTimeString();
+                
+                // Get status class
+                const statusClass = getStatusClass(order.status);
+                
+                orderItem.innerHTML = `
+                    <div class="order-summary">
+                        <div class="order-number">طلب #${order.orderNumber}</div>
+                        <div class="order-date">${formattedDate} - ${formattedTime}</div>
+                        <div class="order-customer">
+                            <div>${order.customerName}</div>
+                            <div>${order.phone}</div>
+                        </div>
+                        <div class="order-total">${order.total} $</div>
+                        <div class="order-status ${statusClass}">${order.status || 'جديد'}</div>
+                    </div>
+                    <div class="order-details">
+                        <div class="order-info">
+                            <div class="info-group">
+                                <div class="info-label">معلومات العميل:</div>
+                                <div class="info-value">${order.customerName}</div>
+                                <div class="info-value">${order.phone}</div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">عنوان التوصيل:</div>
+                                <div class="info-value">${order.address}</div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">تاريخ الطلب:</div>
+                                <div class="info-value">${formattedDate} - ${formattedTime}</div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">حالة الطلب:</div>
+                                <div class="info-value ${statusClass}">${order.status || 'جديد'}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="order-items">
+                            <div class="items-title">المنتجات المطلوبة:</div>
+                            <table class="item-list">
+                                <thead>
+                                    <tr>
+                                        <th>الصورة</th>
+                                        <th>المنتج</th>
+                                        <th>اللون/المقاس</th>
+                                        <th>الكمية</th>
+                                        <th>السعر</th>
+                                        <th>المجموع</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${order.items.map(item => `
+                                        <tr>
+                                            <td>
+                                                <div class="item-image">
+                                                    <img src="${item.image || '/api/placeholder/60/60'}" alt="${item.name}">
+                                                </div>
+                                            </td>
+                                            <td>${item.name}</td>
+                                            <td>${item.color} / ${item.size}</td>
+                                            <td>${item.quantity}</td>
+                                            <td>${item.price} $</td>
+                                            <td>${item.total} $</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="order-total" style="text-align: left; margin-top: 1rem;">
+                            <strong>المجموع الكلي: ${order.total} $</strong>
+                        </div>
+                        
+                        <div class="order-actions">
+                            <select class="status-select" data-order="${order.orderNumber}">
+                                <option value="جديد" ${order.status === 'جديد' ? 'selected' : ''}>جديد</option>
+                                <option value="قيد المعالجة" ${order.status === 'قيد المعالجة' ? 'selected' : ''}>قيد المعالجة</option>
+                                <option value="تم الشحن" ${order.status === 'تم الشحن' ? 'selected' : ''}>تم الشحن</option>
+                                <option value="تم التوصيل" ${order.status === 'تم التوصيل' ? 'selected' : ''}>تم التوصيل</option>
+                                <option value="ملغي" ${order.status === 'ملغي' ? 'selected' : ''}>ملغي</option>
+                            </select>
+                            <button class="admin-btn save-btn" data-order="${order.orderNumber}">
+                                <i class="fas fa-save"></i> حفظ التغييرات
+                            </button>
+                            <button class="admin-btn print-btn" data-order="${order.orderNumber}">
+                                <i class="fas fa-print"></i> طباعة الفاتورة
+                            </button>
+                            <button class="admin-btn delete-btn" data-order="${order.orderNumber}">
+                                <i class="fas fa-trash"></i> حذف الطلب
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                ordersList.appendChild(orderItem);
+                
+                // Add event listeners
+                const summary = orderItem.querySelector('.order-summary');
+                const details = orderItem.querySelector('.order-details');
+                
+                summary.addEventListener('click', () => {
+                    details.classList.toggle('active');
+                });
+                
+                // Status change
+                const statusSelect = orderItem.querySelector('.status-select');
+                const saveBtn = orderItem.querySelector('.save-btn');
+                
+                saveBtn.addEventListener('click', () => {
+                    updateOrderStatus(order.orderNumber, statusSelect.value);
+                });
+                
+                // Print invoice
+                const printBtn = orderItem.querySelector('.print-btn');
+                printBtn.addEventListener('click', () => {
+                    printInvoice(order.orderNumber);
+                });
+                
+                // Delete order
+                const deleteBtn = orderItem.querySelector('.delete-btn');
+                deleteBtn.addEventListener('click', () => {
+                    deleteOrder(order.orderNumber);
+                });
+            });
+        }
+        
+        // Get CSS class for status
+        function getStatusClass(status) {
+            switch(status) {
+                case 'جديد':
+                    return 'status-new';
+                case 'قيد المعالجة':
+                    return 'status-processing';
+                case 'تم الشحن':
+                    return 'status-shipped';
+                case 'تم التوصيل':
+                    return 'status-delivered';
+                case 'ملغي':
+                    return 'status-cancelled';
+                default:
+                    return 'status-new';
+            }
+        }
+        
+        // Update order status
+        function updateOrderStatus(orderNumber, newStatus) {
+            const orderIndex = orders.findIndex(o => o.orderNumber.toString() === orderNumber.toString());
+            
+            if (orderIndex !== -1) {
+                orders[orderIndex].status = newStatus;
+                localStorage.setItem('orders', JSON.stringify(orders));
+                
+                // Update UI
+                const orderItem = document.querySelector(`.order-item[data-order="${orderNumber}"]`);
+                if (orderItem) {
+                    const statusElement = orderItem.querySelector('.order-status');
+                    const statusValue = orderItem.querySelector('.info-value');
+                    
+                    if (statusElement && statusValue) {
+                        statusElement.textContent = newStatus;
+                        statusElement.className = `order-status ${getStatusClass(newStatus)}`;
+                        statusValue.textContent = newStatus;
+                        statusValue.className = `info-value ${getStatusClass(newStatus)}`;
+                    }
+                }
+                
+                alert(`تم تحديث حالة الطلب #${orderNumber} إلى "${newStatus}"`);
+            }
+        }
+        
+        // Print invoice
+        function printInvoice(orderNumber) {
+            const order = orders.find(o => o.orderNumber.toString() === orderNumber.toString());
+            
+            if (order) {
+                // Create a print window
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html dir="rtl">
+                    <head>
+                        <title>فاتورة طلب #${order.orderNumber}</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; margin: 0; padding: 20px; color: #333; }
+                            .invoice-header { text-align: center; margin-bottom: 20px; }
+                            .invoice-header h1 { color: #222; margin-bottom: 5px; }
+                            .invoice-info { display: flex; justify-content: space-between; margin-bottom: 20px; }
+                            .invoice-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                            .invoice-table th { background-color: #222; color: white; padding: 10px; text-align: right; }
+                            .invoice-table td { padding: 10px; border-bottom: 1px solid #ddd; }
+                            .invoice-total { text-align: left; font-weight: bold; margin-top: 20px; }
+                            .invoice-footer { margin-top: 30px; text-align: center; font-size: 0.9em; color: #777; }
+                            @media print {
+                                body { padding: 0; }
+                                .no-print { display: none; }
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="invoice-header">
+                            <h1>Mr.<span style="color: #d4af37;">Black</span></h1>
+                            <p>فاتورة طلب</p>
+                        </div>
+                        
+                        <div class="invoice-info">
+                            <div>
+                                <p><strong>رقم الطلب:</strong> #${order.orderNumber}</p>
+                                <p><strong>التاريخ:</strong> ${order.date} - ${order.time}</p>
+                            </div>
+                            <div>
+                                <p><strong>العميل:</strong> ${order.customerName}</p>
+                                <p><strong>الهاتف:</strong> ${order.phone}</p>
+                            </div>
+                        </div>
+                        
+                        <table class="invoice-table">
+                            <thead>
+                                <tr>
+                                    <th>المنتج</th>
+                                    <th>المواصفات</th>
+                                    <th>الكمية</th>
+                                    <th>السعر</th>
+                                    <th>المجموع</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${order.items.map(item => `
+                                    <tr>
+                                        <td>${item.name}</td>
+                                        <td>${item.color} / ${item.size}</td>
+                                        <td>${item.quantity}</td>
+                                        <td>${item.price} $</td>
+                                        <td>${item.total} $</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                        
+                        <div class="invoice-total">
+                            <p>المجموع الكلي: ${order.total} $</p>
+                        </div>
+                        
+                        <div class="invoice-footer">
+                            <p>شكراً لاختياركم متجر Mr.Black</p>
+                            <p>للاستفسارات: info@mrblack.com - 5551234567+</p>
+                            <button class="no-print" onclick="window.print()" style="padding: 10px 20px; background-color: #d4af37; color: #222; border: none; cursor: pointer; margin-top: 20px;">
+                                طباعة الفاتورة
+                            </button>
+                            <button class="no-print" onclick="window.close()" style="padding: 10px 20px; background-color: #222; color: white; border: none; cursor: pointer; margin-top: 20px; margin-left: 10px;">
+                                إغلاق النافذة
+                            </button>
+                        </div>
+                    </body>
+                    </html>
+                `);
+                
+                printWindow.document.close();
+            }
+        }
+        
+        // Delete order
+        function deleteOrder(orderNumber) {
+            if (confirm(`هل أنت متأكد من حذف الطلب #${orderNumber}؟ هذا الإجراء لا يمكن التراجع عنه.`)) {
+                orders = orders.filter(o => o.orderNumber.toString() !== orderNumber.toString());
+                localStorage.setItem('orders', JSON.stringify(orders));
+                
+                // Update filtered orders
+                filteredOrders = filteredOrders.filter(o => o.orderNumber.toString() !== orderNumber.toString());
+                
+                // Re-render orders
+                renderOrders();
+                
+                alert(`تم حذف الطلب #${orderNumber} بنجاح`);
+            }
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', initOrdersPage);
+    </script>
+</body>
+</html>
