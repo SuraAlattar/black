@@ -1,1 +1,197 @@
-[]
+[
+  {
+    "id": 1,
+    "name": "Classic Black T-Shirt",
+    "category": "tshirt",
+    "price": 29.99,
+    "tag": "Bestseller",
+    "images": [
+      "/api/placeholder/400/400",
+      "/api/placeholder/400/400",
+      "/api/placeholder/400/400"
+    ],
+    "colors": [
+      "#000000",
+      "#333333",
+      "#555555"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "description": "Our classic black t-shirt is made from premium 100% cotton fabric, ensuring maximum comfort and durability. Features a modern fit and is perfect for everyday wear."
+  },
+  {
+    "id": 2,
+    "name": "Premium White T-Shirt",
+    "category": "tshirt",
+    "price": 29.99,
+    "tag": "New",
+    "images": [
+      "/api/placeholder/400/400",
+      "/api/placeholder/400/400",
+      "/api/placeholder/400/400"
+    ],
+    "colors": [
+      "#FFFFFF",
+      "#F8F8F8",
+      "#EEEEEE"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "description": "This premium white t-shirt is crafted from high-quality cotton, offering exceptional comfort and a perfect fit. Versatile and timeless design for any occasion."
+  },
+  {
+    "id": 3,
+    "name": "Striped Navy T-Shirt",
+    "category": "tshirt",
+    "price": 34.99,
+    "tag": "Popular",
+    "images": [
+      "/api/placeholder/400/400",
+      "/api/placeholder/400/400",
+      "/api/placeholder/400/400"
+    ],
+    "colors": [
+      "#1A237E",
+      "#303F9F",
+      "#3F51B5"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "description": "Our striped navy t-shirt features a classic design with contemporary details. Made from soft cotton blend that provides all-day comfort and style."
+  },
+  {
+    "id": 4,
+    "name": "Graphic Print T-Shirt",
+    "category": "tshirt",
+    "price": 39.99,
+    "tag": "Limited",
+    "images": [
+      "/api/placeholder/400/400",
+      "/api/placeholder/400/400",
+      "/api/placeholder/400/400"
+    ],
+    "colors": [
+      "#607D8B",
+      "#546E7A",
+      "#455A64"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "description": "Express your unique style with our graphic print t-shirt. Features an original artist-designed print on premium cotton fabric for a standout look."
+  },
+  {
+    "id": 5,
+    "name": "Cable Knit Sweater",
+    "category": "sweater",
+    "price": 79.99,
+    "tag": "Bestseller",
+    "images": [
+      "/api/placeholder/400/400",
+      "/api/placeholder/400/400",
+      "/api/placeholder/400/400"
+    ],
+    "colors": [
+      "#795548",
+      "#6D4C41",
+      "#5D4037"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "description": "Our cable knit sweater offers timeless style and exceptional warmth. Crafted from premium wool blend, it's perfect for staying cozy during colder months."
+  },
+  {
+    "id": 6,
+    "name": "Cashmere Blend Sweater",
+    "category": "sweater",
+    "price": 149.99,
+    "tag": "Premium",
+    "images": [
+      "/api/placeholder/400/400",
+      "/api/placeholder/400/400",
+      "/api/placeholder/400/400"
+    ],
+    "colors": [
+      "#9E9E9E",
+      "#757575",
+      "#616161"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "description": "Experience luxury with our cashmere blend sweater. Incredibly soft, warm, and lightweight, this sweater provides exceptional comfort and sophisticated style."
+  },
+  {
+    "id": 7,
+    "name": "Turtleneck Sweater",
+    "category": "sweater",
+    "price": 89.99,
+    "tag": "New",
+    "images": [
+      "/api/placeholder/400/400",
+      "/api/placeholder/400/400",
+      "/api/placeholder/400/400"
+    ],
+    "colors": [
+      "#263238",
+      "#37474F",
+      "#455A64"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "description": "Stay warm and stylish with our classic turtleneck sweater. Made from a soft wool blend that offers warmth without bulk, perfect for layering."
+  },
+  {
+    "id": 8,
+    "name": "V-Neck Wool Sweater",
+    "category": "sweater",
+    "price": 69.99,
+    "tag": "Sale",
+    "images": [
+      "/api/placeholder/400/400",
+      "/api/placeholder/400/400",
+      "/api/placeholder/400/400"
+    ],
+    "colors": [
+      "#004D40",
+      "#00695C",
+      "#00796B"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "description": "Our V-neck wool sweater combines classic style with modern comfort. Features a flattering fit and is crafted from high-quality wool for long-lasting wear."
+  }
+]
